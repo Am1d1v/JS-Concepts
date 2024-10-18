@@ -24,16 +24,36 @@
 
 
 // Reject
+// fetch('https://dummyjson.com/productstypo')
+//     .then(response => {
+//         console.log(response);
+//         return response;
+//     }, reject => console.log(reject))
+//     .then(({products}) => {
+//         console.log(products)
+//         return fetch(`https://dummyjson.com/productstypo/` + products[0].id)
+//     }, error => console.log(error))
+//         .then(response => response.json())
+//         .then(data => console.log(data))
+//         .catch(error => console.log(error))
+//         .finally(() => console.log('Finally'))
+
+
+// Throw Errors 
 fetch('https://dummyjson.com/productstypo')
     .then(response => {
-        console.log(response);
+       if(!response.ok){
+        throw new Error(`Is error: ${response.status}`)
+       }
         return response;
-    }, reject => console.log(reject))
+    })
     .then(({products}) => {
         console.log(products)
-        return fetch(`https://dummyjson.com/productstypo/` + products[0].id)
-    }, error => console.log(error))
+        return fetch(`https://dummyjson.com/products/` + products[0].id)
+    })
         .then(response => response.json())
         .then(data => console.log(data))
-        .catch(error => console.log(error))
-        .finally(() => console.log('Finally'))
+        .catch(error => {
+            const el = document.querySelector('.filter');
+            el.textContent = error;
+        })

@@ -40,20 +40,57 @@
 
 
 // Throw Errors 
-fetch('https://dummyjson.com/productstypo')
-    .then(response => {
-       if(!response.ok){
-        throw new Error(`Is error: ${response.status}`)
-       }
-        return response;
+// fetch('https://dummyjson.com/productstypo',)
+//     .then(response => {
+//        if(!response.ok){
+//         throw new Error(`Is error: ${response.status}`)
+//        }
+//         return response;
+//     })
+//     .then(({products}) => {
+//         console.log(products)
+//         return fetch(`https://dummyjson.com/products/` + products[0].id)
+//     })
+//         .then(response => response.json())
+//         .then(data => console.log(data))
+//         .catch(error => {
+//             const el = document.querySelector('.filter');
+//             el.textContent = error.message;
+//         })
+
+
+// Query
+
+function getData(url, errorMessage){
+    return fetch(url)
+            .then(response => {
+                if(!response.ok){
+                    const el = document.querySelector('.filter');
+                    el.innerHTML = `${errorMessage} StatusCode: ${response.status}`
+                    throw Error(`${errorMessage} ${response.status}`)
+                }
+                return response.json()
+            .then(({products}) => {
+                const el = document.querySelector('.filter');
+                el.innerHTML = `<select>${products.map(prod =>`<option value=${prod.value}>${prod.title}</option>`)}</select>`
+            })   
     })
-    .then(({products}) => {
-        console.log(products)
-        return fetch(`https://dummyjson.com/products/` + products[0].id)
-    })
-        .then(response => response.json())
-        .then(data => console.log(data))
-        .catch(error => {
-            const el = document.querySelector('.filter');
-            el.textContent = error;
-        })
+}
+getData('https://dummyjson.com/productss', 'Wrong URL')
+
+// fetch('https://dummyjson.com/products')
+//     .then(response => {
+//        if(!response.ok){
+//         throw new Error(`Is error: ${response.status}`)
+//        }
+//        return response.json();
+//     })
+//     .then(({products}) => {
+//         console.log(products)
+//         return fetch(`https://dummyjson.com/products/` + products[0].id)
+//     })
+//         .then(response => response.json())
+//         .catch(error => {
+//             const el = document.querySelector('.filter');
+//             el.textContent = error.message;
+//         })

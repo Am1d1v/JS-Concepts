@@ -62,8 +62,8 @@ const asyncArrow = async () => {
 asyncArrow(); */
 
 
-// 
-const asyncArrow = async () => {
+// sequential
+/* const asyncArrow = async () => {
     try {
         const {products} = await fetch('https://dummyjson.com/products').then(data => data.json());
         return products;
@@ -77,4 +77,30 @@ const asyncArrow = async () => {
     const res = await asyncArrow();
     console.log(res);
     console.log(4);
-})();
+})(); */
+
+// parallel
+async function getAllProducts(){
+    const products = await fetch ('https://dummyjson.com/products');
+    return products.json();
+}
+
+async function getProductById(id){
+    const product = await fetch (`https://dummyjson.com/products/${id}`);
+    return product.json();
+}
+
+async function main(){
+    const {products} = await getAllProducts();
+    const all = await Promise.all([
+        getProductById(1),
+        getProductById(2),
+        getProductById(3)
+    ]);
+    console.log(all);
+    // for (const product of products){
+    //     const res = await getProductById(product.id);
+    //     console.log(res);
+    // }
+}   
+main();

@@ -92,15 +92,7 @@ async function getProductById(id){
 
 async function main(){
     const {products} = await getAllProducts();
-    const all = await Promise.all([
-        getProductById(1),
-        getProductById(2),
-        getProductById(3)
-    ]);
+    const all = await Promise.all(products.map(product => getProductById(product.id)))
     console.log(all);
-    // for (const product of products){
-    //     const res = await getProductById(product.id);
-    //     console.log(res);
-    // }
 }   
 main();

@@ -22,16 +22,24 @@
 
 
 // Get current city
-async function getPosition(){
-    let longitude;
-    let latitude;
-    
-    navigator.geolocation.getCurrentPosition((pos) => {
-       longitude = pos.coords.latitude;
-       latitude = pos.coords.longitude
+function getMyCoordinates(){
+    return new Promise((resolve, reject) => {
+        navigator.geolocation.getCurrentPosition(({coords}) => 
+            resolve({
+                latitude: coords.latitude,
+                longitude: coords.longitude
+            }))
     });
-    
-    const response = await fetch(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${latitude}&longitude=${longitude}`).then(response => response.json());
-    console.log(response.city)
+}
+
+async function getPosition(){
+    try {
+        const {latitude, longitude} = await getMyCoordinates();
+        const response = await fetch(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${latitude}&longitude=${longitude}`).then(response => response.json());
+        console.log(response)
+    } catch (error) {
+        console.log(error)
+    }
+
 }
 getPosition();

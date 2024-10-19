@@ -46,7 +46,7 @@
 
 
 // Async Methods
-class ProductsRepository{
+/* class ProductsRepository{
     static async getProducts(){
         const {products} = await fetch('https://dummyjson.com/products').then(data => data.json());
         console.log(products);
@@ -59,4 +59,22 @@ const asyncArrow = async () => {
     const {products} = await fetch('https://dummyjson.com/products').then(data => data.json());
     console.log(products);
 }
-asyncArrow();
+asyncArrow(); */
+
+
+// 
+const asyncArrow = async () => {
+    try {
+        const {products} = await fetch('https://dummyjson.com/products').then(data => data.json());
+        return products;
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+(async () => {
+    console.log(3);
+    const res = await asyncArrow();
+    console.log(res);
+    console.log(4);
+})();

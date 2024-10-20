@@ -59,7 +59,7 @@ async function getAllProducts(){
 }
 
 async function getProductError(){
-    const products = await fetch ('https://dummyjsons.com/products');
+    const products = await fetch ('https://dummyjson.com/products/10000');
     return products.json();
 }
 
@@ -70,20 +70,28 @@ async function getProductByID(id){
 
 
 async function main(){
-    const result1 = await Promise.all([
+   /*  const result1 = await Promise.all([
         getProductByID(1),
         getProductByID(2),
         getProductByID(3),
         //getProductError()
     ]);
-    console.log(result1);
+    //console.log(result1);
 
     const result2 = await Promise.allSettled([
         getProductByID(1),
         getProductByID(2),
         getProductByID(3),
         getProductError()
-    ]);
-    console.log(result2);
+    ])
+    //console.log(result2);
+     */
+
+    const result3 = await Promise.race([
+        getProductByID(3),
+        getProductError()
+    ])
+    console.log(result3);
+    
 }   
 main();
